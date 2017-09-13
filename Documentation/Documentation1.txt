@@ -1,3 +1,6 @@
+<<<<<<< HEAD
 SAMPLE COMMIT
 
 Another NO commit
+=======
+>>>>>>> parent of ac47ebd... Sample commit test
