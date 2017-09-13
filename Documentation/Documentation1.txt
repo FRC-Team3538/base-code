@@ -1,3 +1,3 @@
 SAMPLE COMMIT
 
-Another sample commitAnother NO commit
+Another NO commit
