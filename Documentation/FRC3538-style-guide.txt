@@ -1,0 +1,75 @@
+              C style guide (FRC 3538, Robojackets)
+
+Comments:
+1. Comments that describe what a section of code is intended to do, and are placed 
+before this code. 
+2. Comments that describe what a single line of code is intended to do should be placed next to the line. 
+3. Use comments to explain the implementation of difficult parts of code.
+4. Nested comments not allowed. 
+5. A section of code may be commented out during debugging. 
+   After that, comments must be removed.
+6. Format comments before a function like this: 
+
+// Function: Add( )
+//
+// adds the given variable and returns Sum
+//
+// Arguments -
+// iVariable1 [in]	: 	1st Variable
+// iVariable2 [in]	: 	2nd Variable
+// iSum       [out]	: 	Sum
+// 
+
+Formatting:
+1. Provide sufficient documentation in the code to describe implemented logic.
+2. Use automatic formatting to format the code.
+3. Always write the left parentheses directly after a function name.
+4. A semicolon at the end of a statement should not be preceded by a space.
+5. Indentation should be 2 spaces for each brace level of code.
+6. Indentation and spacing should reflect the block structure of the code. 
+7. Format blocks like this:
+int Add( int iVer1, int iVer2 )    {
+  ....
+  return sum;
+}
+
+Variables and function names:
+1. Use variable names that that suggest the variable’s usage.
+2. No variable, function, type, or #define may have the same spelling as any other.
+3. Do not use identifiers that differ only in capitalization.
+4. All function identifiers must be declared before use.
+5. Don't use global variables unless absolutely necessary.
+6. All variables must be assigned a value before they are used.
+7. Each variable is to be declared in a separate declaration statement.
+8. Use “camel case” for variable and function names.  
+   The name is composed of words that explain what the variable or function does.
+   The first character is lowercase. 
+   The first letter of each following word is upper case.
+
+Calculations:
+1. Implicit conversion which may result in a loss of information must not be used.
+2. Always use parenthesis to make operator precedence clear.
+3. Mixed precision arithmetic should use explicit casting for the desired result.
+4. Tests of a value against zero should be made explicit.
+5. If possible, use initialization instead of assignment.
+6. The unary minus operator shall not be applied to an unsigned expression.
+
+If and Switch statements:
+1. The statements forming the body of an “if”, “else if”, “else”, “while”, “do ... while”, or “for” statement shall always be enclosed in braces.
+2. All “if” statements followed by “else if” constructs should contain a final “else.”
+3. Switch statement clauses must be terminated with a break statement.
+4. Switch statements should contain a final default clause.
+
+Functions:
+1. Keep functions small.  A function should print on less than one page.
+2. Every function must have an explicit return type.
+3. Don’t use functions that don’t have parameters.
+4. Do not use #define to define a "function"
+5. Declare functions at file scope.
+6. A function should be called using all required arguments and their types should also match the function definition.
+7. Don't use pointers, unless required by library functions. 
+8. Functions should be declared at file scope.
+
+Constants:
+1. Do not use numeric values in the code. Use "const" or "enum," or "#define." 
+2. If constants are to be defined using #define then the value should be enclosed in parentheses.
