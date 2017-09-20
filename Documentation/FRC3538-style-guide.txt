@@ -1,4 +1,4 @@
-              C style guide (FRC 3538, Robojackets)
+﻿              C style guide (FRC 3538, Robojackets)
 
 Comments:
 1. Comments that describe what a section of code is intended to do, and are placed 
@@ -73,3 +73,6 @@ Functions:
 Constants:
 1. Do not use numeric values in the code. Use "const" or "enum," or "#define." 
 2. If constants are to be defined using #define then the value should be enclosed in parentheses.
+
+Interfaces:
+1. Each hardware device must be called using a single function.
