@@ -1,0 +1,58 @@
+Thins to do:
+
+LED controller with Arduino Nano:
+1. Get the lights to work (1 nano digital output)
+2. RoboRio sends commands to the Nano. (1 nano digital input, 1 RoboRio PWM output)
+3. Combine them
+	Nano: 1 digital input, 1 digital output
+	RoboRio: 1 PWM output
+
+Make the sensor turret work.
+1. Construct the prototype turret
+2. Control the servo
+	Test: 
+		Set to -185, -180, -135, -90, -45, 0, 45, 90, 135, 180, 185 degrees.
+		Pause 1000 ms at each angle.
+			
+
+3. Add the stop switches, recalibrate at endpoints
+	Test: 
+		Set the servo to +270 degrees. 
+			It stops at the + stop.
+		Set the servo to 0 degees. 
+			It stops at -90 degees
+		Set the servo to -270 degrees. 
+			It stops at the - stop.
+		Set the servo to 0 degees. 
+			It stops at +90 degees.
+
+4. Add hysteresis.
+	Test:
+		Increase the angle (in 4 degree steps) from +170 to +270. Pause 200 ms between values. (takes 5 sec.)
+			At +185 degrees it rolls over to -175 and increases, stopping at -90.
+		Increase the angle (in 45 degree steps) from +100 to +280.  Pause 2000 ms between values. (takes 8 sec.)
+			It turns around without going all of the way to the end, stopping at -80.
+		Decrease the angle (in 4 degree steps) from -170 to -270. Pause 200 ms between values. (takes 5 sec.)
+			At -185 degrees it rolls over to +175 and increases, stopping at +90.
+		Decrease the angle (in 45 degree steps) from -100 to -280.  Pause 2000 ms between values. (takes 8 sec.)
+			It turns around without going all of the way to the end, stopping at +80.
+
+5. Add gyroscope.
+	Test:
+		Set the gyroscope angle.  Move the base.
+			It keeps pointing in the same direction.
+
+6. Add simulated vision input
+	Test:
+		adjust the vision input
+			It keeps pointing in the same direction with adjustments from the vision input.
+
+Arduino I/O:
+	1. 1 PWM output (servo control to RoboRio, due to rules)
+	3. 1 digital input (PWM, requested angle)
+RoboRio I/O:
+	1. 1 PWM output (requested angle)
+	3. 1 digital input (PWM, servo control, due to rules)
+	4. 1 PWM output (servo motor control, due to rules)
+	
+	(RoboRio can adjust the motors until servo control is at zero.)
