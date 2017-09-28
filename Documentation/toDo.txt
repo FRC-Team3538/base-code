@@ -1,20 +1,22 @@
 Thins to do:
 
 LED controller with Arduino Nano:
-1. Get the lights to work (1 nano digital output)
+1. Get the lights to work (1 nano digital output) --DONE-- Runs taillight software --DONE--
+
+
 2. RoboRio sends commands to the Nano. (1 nano digital input, 1 RoboRio PWM output)
 3. Combine them
 	Nano: 1 digital input, 1 digital output
 	RoboRio: 1 PWM output
 
 Make the sensor turret work.
-1. Construct the prototype turret
-2. Control the servo
+
+2. Control the servo --DONE--
 	Test: 
 		Set to -185, -180, -135, -90, -45, 0, 45, 90, 135, 180, 185 degrees.
 		Pause 1000 ms at each angle.
-			
 
+1. Construct the prototype turret
 3. Add the stop switches, recalibrate at endpoints
 	Test: 
 		Set the servo to +270 degrees. 

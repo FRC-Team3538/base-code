@@ -1,0 +1,29 @@
+This is a Round-Robin scheduler.
+
+In this case, "autoSelected" picks the the routine that will be performed in a particuklare autonomous mode.
+
+This is much more versatile than that.
+
+The "else" clauses can be removed so that all "if"s can be executed during each loop.  
+
+In this way, any of the branches can be executed during each execution of the loop.
+
+
+
+
+
+
+
+
+	void AutonomousPeriodic() {
+		if (flag1 == TRUE) {taskOne();}
+		if (flag2 == TRUE) {taskTwo();}
+		if (flaG3 == autonNameRed3) {taskThree();}
+		if (Flag4 == autonNameBlue1) {taskFour(); }
+		if (flag5 == autonNameBlue2) {taskFive(); }
+		else
+			stopMotors();
+
+		//SmartDashboardUpdate();
+	}
+
