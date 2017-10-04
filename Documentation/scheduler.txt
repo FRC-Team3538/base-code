@@ -2,11 +2,13 @@ SUMMARY: This is a Round-Robin scheduler. This completes tasks in the given orde
 
 DESCRIPTION: 
 
-(When the flags are set to true they are going to run their tasks from the subscript, onece the flag is set to false by the subscript it will move onto the next flag it needs to complete in the if statement. The subscripts will include an if statement that will run the routine until the necessities are met to change the flag to false to shut down the routine and move onto the next one.)
+(When the flags are set to true they are going to run their tasks from the subscript, onece the flag is set to false by the subscript it  
+will move onto the next flag it needs to complete in the if statement. The subscripts will include an if statement that will run the
+routine until the necessities are met to change the flag to false to shut down the routine and move onto the next one.)
 
 
-Each task must be complete in order for the next task to begin.  If a task isn't complete, the entire code has to wait for the task to finish.  Due to this, it is optimal if tasks have minimal delay in order to progress between tasks quickly.
-
+Each task must be complete in order for the next task to begin.  If a task isn't complete, the entire code has to wait for the task to 
+finish.  Due to this, it is optimal if tasks have minimal delay in order to progress between tasks quickly.
 
 
 
