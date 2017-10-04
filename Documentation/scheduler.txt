@@ -1,29 +1,26 @@
-This is a Round-Robin scheduler.
+SUMMARY: This is a Round-Robin scheduler. This completes tasks in the given order, then repeats after one loop.
 
-In this case, "autoSelected" picks the the routine that will be performed in a particuklare autonomous mode.
+DESCRIPTION: 
 
-This is much more versatile than that.
+(When the flags are set to true they are going to run their tasks from the subscript, onece the flag is set to false by the subscript it will move onto the next flag it needs to complete in the if statement. The subscripts will include an if statement that will run the routine until the necessities are met to change the flag to false to shut down the routine and move onto the next one.)
 
-The "else" clauses can be removed so that all "if"s can be executed during each loop.  
 
-In this way, any of the branches can be executed during each execution of the loop.
-
+Each task must be complete in order for the next task to begin.  If a task isn't complete, the entire code has to wait for the task to finish.  Due to this, it is optimal if tasks have minimal delay in order to progress between tasks quickly.
 
 
 
 
 
 
-
+EXAMPLE CODE:
 	void AutonomousPeriodic() {
 		if (flag1 == TRUE) {taskOne();}
 		if (flag2 == TRUE) {taskTwo();}
-		if (flaG3 == autonNameRed3) {taskThree();}
-		if (Flag4 == autonNameBlue1) {taskFour(); }
-		if (flag5 == autonNameBlue2) {taskFive(); }
+		if (flaG3 == TRUE) {taskThree();}
+		if (Flag4 == TRUE) {taskFour(); }
+		if (flag5 == TRUE) {taskFive(); }
 		else
-			stopMotors();
-
-		//SmartDashboardUpdate();
+			idle();
 	}
+
 
