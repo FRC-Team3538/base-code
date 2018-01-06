@@ -123,6 +123,7 @@ text {
 #gyro-number {
     font-size: 25px;
     text-anchor: middle;
+    font-family: ariel;
 }
 #robot-diagram {
     position: absolute;
