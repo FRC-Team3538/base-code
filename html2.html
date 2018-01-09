@@ -28,20 +28,21 @@
         <svg id="gyro" height="175" width="175">
 	 <circle cx="87" cy="87" stroke-width="12" r="75" fill="rgba( 0, 150, 136, 1)"></circle>
 	 <circle cx="87" cy="87" stroke-width="3" r="15" fill="white"></circle>
-	 <polygon id="gyro-arm" points="102,87 72,87 87,24" stroke-width="0" fill="white"></polygon>
-<text id="gyro-number" x="87" y="125" fill="white">360º</text>
-</svg>
+	 <polygon id="gyro-arm" points="102,87.5 73,87.5 87.5,22" stroke-width="0" fill="white" transform = rotate(0)></polygon>
+	 <text id="gyro-number" x="87" y="125" fill="white">0º</text>
+	</svg>
 
         <!-- Example robot diagram, arm moves when encoder value changes -->
         <svg id="robot-diagram" width="332" height="450" fill="rgba( 0, 150, 136, 1)">
             <text x="40" y="340">Example SVG Robot Diagram</text>
             <rect x="75" y="360" width="230" height="40" fill="rgba( 0, 150, 136, 1)"></rect>
             <rect x="85" y="370" width="210" height="40" fill="rgba( 0, 150, 136, 1)"></rect>
-            <rect id="robot-arm" x="5" y="375" width="80" height="10" fill="rgba( 0, 150, 136, 1)"></rect>
+            <rect id="robot-arm" x="5" y="375" width="80" height="10" fill="rgba( 0, 150, 136, 1)" transform='translate(0 -40)'></rect>
             <circle cx="100" cy="410" r="25" fill="rgba( 0, 150, 136, 1)"></circle>
             <circle cx="260" cy="410" r="25" fill="rgba( 0, 150, 136, 1)"></circle>
-            <text id="team" x="185" y="405" text-anchor="middle">####</text><rect x="60" y="380" width="250" height="30"></rect>
-            
+            <text id="team" x="185" y="405" fill="white" text-anchor="middle">3538</text>
+	    <rect x="60" y="380" width="250" height="30"></rect>
+	    <rect x="75" y="55" width="100" height="320"></rect>
         </svg>
     </article>
 	<div class="greybox">
@@ -50,9 +51,9 @@
             <button id="connect" disabled="">Connecting</button>
         </div>
     </div>
-    <script src="./FRCDashboard-practice/tryIPC.js"></script>
-    <script src="./FRCDashboard-practice/networktables/networktables.js"></script>
-    <script src="./FRCDashboard-practice/ui.js"></script> 
+    <script src="/FRCDashboard-practice/tryIPC.js"></script>
+    <script src="/FRCDashboard-practice/networktables/networktables.js"></script>
+    <script src="/FRCDashboard-practice/ui.js"></script> 
     <!-- The sidebar of the dashboard. Designed for smaller control elements like selection boxes and small buttons. -->
     <aside>
         <!-- Example button which toggles /SmartDashboard/exampleValue NetworkTables value.
@@ -74,5 +75,5 @@
         </div>
     </aside>
     <script src="components/gyro.js"></script>
+    <style type="text/css"></style> 
 </body>
-<style type="text/css"></style> 

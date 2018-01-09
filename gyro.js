@@ -1,11 +1,10 @@
-alert("Javascript Found");
 ui.gyro = {
     container: document.getElementById('gyro'),
     val: 0,
     offset: 0,
     visualVal: 0,
     arm: document.getElementById('gyro-arm'),
-    number: document.getElementById('gyro-number')
+    number: document.getElementById('gyro-number'),
 };
 
 NetworkTables.addKeyListener('/SmartDashboard/drive/navx/yaw', (key, value) => {
@@ -14,10 +13,9 @@ NetworkTables.addKeyListener('/SmartDashboard/drive/navx/yaw', (key, value) => {
     if (ui.gyro.visualVal < 0) { // Corrects for negative values
         ui.gyro.visualVal += 360;
     }
-    ui.gyro.arm.style.transform = ('rotate(' + ui.gyro.visualVal + 'deg)');
+    ui.gyro.arm.style.transform = ('rotate(' + ui.gyro.visualVal + ')');
     ui.gyro.number.innerHTML = ui.gyro.visualVal + 'º';
 });
-
 // You can remove this part if you don't want the gyro to have reset on click functionality.
 
 // Reset gyro value to 0 on click
@@ -27,4 +25,5 @@ ui.gyro.container.onclick = function() {
     // Show the gyro as zeroed out.
     // TODO: This feels hacky, fix it.
     ui.gyro.arm.style.transform = 'rotate(0)';
+
 };

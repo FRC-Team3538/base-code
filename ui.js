@@ -108,7 +108,7 @@ let updateGyro = (key, value) => {
     if (ui.gyro.visualVal < 0) {
         ui.gyro.visualVal += 360;
     }
-    ui.gyro.arm.style.transform = `rotate(${ui.gyro.visualVal}deg)`;
+    ui.gyro.arm.style.transform = `rotate(${ui.gyro.visualVal})`;
     ui.gyro.number.innerHTML = ui.gyro.visualVal + 'º';
 };
 NetworkTables.addKeyListener('/SmartDashboard/drive/navx/yaw', updateGyro);
@@ -126,7 +126,7 @@ NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
     // Calculate visual rotation of arm
     var armAngle = value * 3 / 20 - 45;
     // Rotate the arm in diagram to match real arm
-    ui.robotDiagram.arm.style.transform = `rotate(${armAngle}deg)`;
+    ui.robotDiagram.arm.style.transform = `rotate(${armAngle})`;
 });
 
 // This button is just an example of triggering an event on the robot by clicking a button.
@@ -148,8 +148,8 @@ NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
     // You shouldn't need to touch this code, but it's documented anyway in case you do.
     var s = 135;
     if (value) {
-        // Make sure timer is reset to black when it starts
-        ui.timer.style.color = 'black';
+        // Make sure timer is reset to white when it starts
+        ui.timer.style.color = 'white';
         // Function below adjusts time left every second
         var countdown = setInterval(function () {
             s--; // Subtract one second
