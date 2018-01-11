@@ -9,7 +9,7 @@
 // number of pixels in the LED string
 #define NUMPIXELS (15)
 
-// numbere of seconds thet the timer will run
+// number of seconds thet the timer will run
 #define TIMEOUT (15)
 #define PIN 4
 
@@ -68,18 +68,38 @@ void loop() {
   int d6Binary = digitalRead(d6Pin);
   int d7Binary = digitalRead(d7Pin);
   int binaryNumber = 128 * d7Binary + 64 * d6Binary + 32 * d5Binary + 16 * d4Binary + 8 * d3Binary + 4 * d2Binary + 2 * d1Binary + d0Binary;
+  //------------------------FIRST TWO MINUTES------------------------
+  int startPixels = NUMPIXELS - 1;
+  float startPixelsVal = 0;
+  setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
+  for (int countdownSeconds = TIMEOUT + 120; countdownSeconds > 15; countdownSeconds--) {
+    timeDisplay(countdownSeconds);
+    if (startPixelsVal == 8) {
+      startPixelsVal = 0;
+      startPixels--;
+    }
+    setLEDsToColor( startPixels, 0, 127, 127);
+    Serial.print("startPixelsVal= ");
+    Serial.println(startPixelsVal);
+    Serial.println(startPixels);
+    delay(1000);
+    startPixelsVal++;
+  }
+
+
+  //------------------------LAST FIFTEEN SECONDS------------------------
 
   int litPixels = NUMPIXELS - 1;
   setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
   for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
-    //displayTime(countdownSeconds);
-    setLEDsToColor( litPixels, 0,  255, 0);
+    timeDisplay(countdownSeconds);
+    setLEDsToColor( litPixels, 255, 0, 0);
     litPixels--;
     delay(1000);
   }
   while (1) {}
-}
-
+  }
+  
 
 void left_trn() {
   int left_len = 25;
@@ -288,8 +308,8 @@ void setLEDsToColor( int number, int red, int green, int blue) {
 
 //--------------------------DISPLAY--------------------------------------------------------------
 // display current time on the display.
-void countdownSeconds(int cndSeconds) {
-  
+void timeDisplay(int cndSeconds) {
+
   mySerial.write(0xFE);
   mySerial.write(0X01);
   mySerial.write(0xFE); // move cursor to beginning of first line
