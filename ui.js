@@ -1,4 +1,5 @@
 // Define UI elements
+//alert('ui.js running');
 let ui = {
     timer: document.getElementById('timer'),
     robotState: document.getElementById('robot-state').firstChild,
@@ -85,7 +86,8 @@ function onRobotConnection(connected) {
             connect.disabled = false;
             connect.firstChild.data = 'Connect';
             // Add the default address and select xxxx
-            address.value = 'roborio-xxxx.local';
+            //address.value = 'roborio-8538.local';
+	    address.value = '10.85.38.2';
             address.focus();
             address.setSelectionRange(8, 12);
             // On click try to connect and disable the input and the button

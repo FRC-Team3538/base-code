@@ -23,8 +23,7 @@ const ipc = electron.ipcMain;
 let mainWindow;
 
 
-//let connected, ready = false;
-let connected, ready = true;
+let connected, ready = false;
 function createWindow() {
     // Attempt to connect to the localhost
     client.start((con, err) => {

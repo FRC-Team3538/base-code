@@ -1,3 +1,4 @@
+//alert('GyroJS Running');
 ui.gyro = {
     container: document.getElementById('gyro'),
     val: 0,
