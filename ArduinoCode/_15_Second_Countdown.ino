@@ -13,6 +13,8 @@
 #define TIMEOUT (15)
 #define PIN 4
 
+#include "LedControl.h"
+LedControl lc = LedControl(6, 8, 7, 2);
 SoftwareSerial mySerial(3, 2); // pin 2 = TX, pin 3 = RX (unused)
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -31,75 +33,69 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(100, PIN, NEO_GRB + NEO_KHZ800);
 
 int cycle = 50;
 
-int d0Pin = 5;
-int d1Pin = 6;
-int d2Pin = 7;
-int d3Pin = 8;
-int d4Pin = 9;
-int d5Pin = 10;
-int d6Pin = 11;
-int d7Pin = 12;
+int dPin = 13;
+int d2Pin = 12;
 
+bool autonomousDone = false;
+bool teleopDone = false;
 void setup() {
   initDisplay();
+
   strip.begin();
+  lampTest();
   lightsOff();
-  //Left turn pin
-  pinMode(d0Pin, INPUT_PULLUP);
-  pinMode(d1Pin, INPUT_PULLUP);
-  pinMode(d2Pin, INPUT_PULLUP);
-  pinMode(d3Pin, INPUT_PULLUP);
-  pinMode(d4Pin, INPUT_PULLUP);
-  pinMode(d5Pin, INPUT_PULLUP);
-  pinMode(d6Pin, INPUT_PULLUP);
-  pinMode(d7Pin, INPUT_PULLUP);
+  pinMode(dPin, INPUT);
+  pinMode(d2Pin, INPUT);
 
   //Serial Trouble Shooting
   Serial.begin(9600);
 }
 
 void loop() {
-  int d0Binary = digitalRead(d0Pin);
-  int d1Binary = digitalRead(d1Pin);
-  int d2Binary = digitalRead(d2Pin);
-  int d3Binary = digitalRead(d3Pin);
-  int d4Binary = digitalRead(d4Pin);
-  int d5Binary = digitalRead(d5Pin);
-  int d6Binary = digitalRead(d6Pin);
-  int d7Binary = digitalRead(d7Pin);
-  int binaryNumber = 128 * d7Binary + 64 * d6Binary + 32 * d5Binary + 16 * d4Binary + 8 * d3Binary + 4 * d2Binary + 2 * d1Binary + d0Binary;
-  //------------------------FIRST TWO MINUTES------------------------
-  int startPixels = NUMPIXELS - 1;
-  float startPixelsVal = 0;
-  setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
-  for (int countdownSeconds = TIMEOUT + 120; countdownSeconds > 15; countdownSeconds--) {
-    timeDisplay(countdownSeconds);
-    if (startPixelsVal == 8) {
-      startPixelsVal = 0;
-      startPixels--;
+  int dDigital = digitalRead(dPin);
+  int d2Digital = digitalRead(d2Pin);
+  Serial.print( d2Digital );
+  //------------------------FIFTEEN SECONDS AUTONOMOUS------------------------
+  if ( d2Digital == 1 && autonomousDone == false) {
+    int litPixels = NUMPIXELS - 1;
+    for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
+      timeDisplay(countdownSeconds);
+      setLEDsToColor( litPixels, 12, 0, 12);
+      litPixels--;
+      delay(100);
     }
-    setLEDsToColor( startPixels, 0, 127, 127);
-    Serial.print("startPixelsVal= ");
-    Serial.println(startPixelsVal);
-    Serial.println(startPixels);
-    delay(1000);
-    startPixelsVal++;
+    autonomousDone = true;
   }
 
+  //------------------------FIRST TWO MINUTES------------------------
+  if ( dDigital == 1 && teleopDone == false) {
+    int startPixels = NUMPIXELS - 1;
+    float startPixelsVal = 0;
+    setLEDsToColor( NUMPIXELS - 1, 0, 56, 0);
+    for (int countdownSeconds = TIMEOUT + 120; countdownSeconds > 15; countdownSeconds--) {
+      timeDisplay(countdownSeconds);
+      if (startPixelsVal == 8) {
+        startPixelsVal = 0;
+        startPixels--;
+      }
+      setLEDsToColor( startPixels, 0, 28, 28);
+      delay(100);
+      startPixelsVal++;
+    }
 
-  //------------------------LAST FIFTEEN SECONDS------------------------
 
-  int litPixels = NUMPIXELS - 1;
-  setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
-  for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
-    timeDisplay(countdownSeconds);
-    setLEDsToColor( litPixels, 255, 0, 0);
-    litPixels--;
-    delay(1000);
+    //------------------------LAST FIFTEEN SECONDS------------------------
+    int litPixels = NUMPIXELS - 1;
+    setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
+    for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
+      timeDisplay(countdownSeconds);
+      setLEDsToColor( litPixels, 64, 0, 0);
+      litPixels--;
+      delay(100);
+    }
+    teleopDone = true;
   }
-  while (1) {}
-  }
-  
+}
 
 void left_trn() {
   int left_len = 25;
@@ -237,21 +233,22 @@ uint32_t Wheel(byte WheelPos) {
 
 //Bad Ccode: uses "magic numbers"
 void party() {
-  int party_len = 50;
+  //  int party_len = 50;
   for (int i = 0; i < 175 ; i++) {
     if (i >= 0 and i < 50) {
-      strip.setPixelColor(i, 0, 0, 255);
+      strip.setPixelColor(i, 0, 0, 32);
     }
     if (i >= 25 and i < 75) {
-      strip.setPixelColor((i - 25), 255, 0, 255);
+      strip.setPixelColor((i - 25), 32, 0, 32);
     }
     if (i >= 75 and i < 125) {
-      strip.setPixelColor((i - 75), 255, 0, 0);
+      strip.setPixelColor((i - 75), 32, 0, 0);
     }
     if (i >= 125 and i < 175) {
-      strip.setPixelColor((i - 125), 255, 60, 0);
+      strip.setPixelColor((i - 125), 32, 8, 0);
     }
     strip.show();
+    //    delay(1);
   }
 }
 
@@ -308,34 +305,121 @@ void setLEDsToColor( int number, int red, int green, int blue) {
 
 //--------------------------DISPLAY--------------------------------------------------------------
 // display current time on the display.
-void timeDisplay(int cndSeconds) {
-
-  mySerial.write(0xFE);
-  mySerial.write(0X01);
-  mySerial.write(0xFE); // move cursor to beginning of first line
-  mySerial.write(0x80);
-
-  if (cndSeconds < 10) {
-    mySerial.print(" ");
+void timeDisplay(int cndTime) {
+  int firstDigit = floor(cndTime / 100);
+  int secondDigit = cndTime / 10 - firstDigit * 10;
+  int thirdDigit = cndTime % 10;
+  if (cndTime < 10) {
+    lc.clearDisplay(0);
+    lc.setChar(0, 4, ' ', false);
+    lc.setChar(0, 3, ' ', false);
+    lc.setDigit(0, 2, thirdDigit, false);
   }
-  if (cndSeconds < 100) {
-    mySerial.print(" ");
+  else if (cndTime < 100) {
+    lc.clearDisplay(0);
+    lc.setChar(0, 4, ' ', false);
+    lc.setDigit(0, 3, secondDigit, false);
+    lc.setDigit(0, 2, thirdDigit, false);
   }
-
-  mySerial.print(cndSeconds);
+  else {
+    lc.clearDisplay(0);
+    lc.setDigit(0, 4, firstDigit, false);
+    lc.setDigit(0, 3, secondDigit, false);
+    lc.setDigit(0, 2, thirdDigit, false);
+  }
 }
+//void timeDisplay(int cndTime) {
+//  mySerial.write(0xFE);
+//  mySerial.write(0X01);
+//  mySerial.write(0xFE); // move cursor to beginning of first line
+//  mySerial.write(0x80);
+//
+//  if (cndSeconds < 10) {
+//    mySerial.print(" ");
+//  }
+//  if (cndSeconds < 100) {
+//    mySerial.print(" ");
+//  }
+//
+//  mySerial.print(cndSeconds);
+//}
 
 void  initDisplay() {
-  mySerial.begin(9600); // set up serial port for 9600 baud
-  delay(500); // Wait for display to boot up.
+  /*
+    The MAX72XX is in power-saving mode on startup,
+    we have to do a wakeup call
+  */
+  lc.shutdown(0, false);
+  /* Set the brightness to a medium values */
+  lc.setIntensity(0, 8);
+  /* and clear the display */ 
+  lc.clearDisplay(0);
 
-  mySerial.write(254); // move cursor to beginning of first line
-  mySerial.write(128);
 
-  mySerial.write(0xFE);
-  mySerial.write(0X01);
-
-  mySerial.write(254); // move cursor to beginning of first line
-  mySerial.write(128);
+  //  mySerial.begin(9600); // set up serial port for 9600 baud
+  //  delay(500); // Wait for display to boot up.
+  //
+  //  mySerial.write(254); // move cursor to beginning of first line
+  //  mySerial.write(128);
+  //
+  //  mySerial.write(0xFE);
+  //  mySerial.write(0X01);
+  //
+  //  mySerial.write(254); // move cursor to beginning of first line
+  //  mySerial.write(128);
+}
+void lampTest() {
+  allSegments();
+  for (int i = 0; i <= 15; i++) {
+    strip.setPixelColor(i, 26, 0, 0);
+    strip.show();
+  }
+  delay(1000);
+  lc.clearDisplay(0);
+  typeFIRST();
+  for (int i = 0; i <= 15; i++) {
+    strip.setPixelColor(i, 0, 26, 0);
+    strip.show();
+  }
+  delay(1000);
+  lc.clearDisplay(0);
+  typeROBOTICS();
+  for (int i = 0; i <= 15; i++) {
+    strip.setPixelColor(i, 0, 0, 26);
+    strip.show();
+  }
+  delay(1000);
+  lc.clearDisplay(0);
+  lc.setDigit(0, 5, 3, false);
+  lc.setDigit(0, 4, 5, false);
+  lc.setDigit(0, 3, 3, false);
+  lc.setDigit(0, 2, 8, false);
+  for (int i = 0; i < 4; i++) {
+    party();
+  }
+  lightsOff();
+}
+//------------------------------SUBROUTINES FOR LAMPTEST------------------------------------
+void allSegments() {
+  for (int i = 0; i < 8; i++) {
+    lc.setRow(0, i, B11111111);
+  }
+}
+void typeFIRST() {
+  lc.setChar(0, 6, 'F', false);
+  lc.setRow(0, 5, B00010000);
+  lc.setRow(0, 4, B00000101);
+  lc.setDigit(0, 3, 5, false);
+  lc.setDigit(0, 2, 7, false);
+}
+void typeROBOTICS() {
+  lc.setRow(0, 7, B00000101);
+  lc.setRow(0, 6, B00011101);
+  lc.setRow(0, 5, B00011111);
+  lc.setRow(0, 4, B00011101);
+  lc.setRow(0, 3, B00110001);
+  lc.setRow(0, 2, B00010000);
+  lc.setRow(0, 1, B00001101);
+  lc.setDigit(0, 0, 5, false);
 }
 
