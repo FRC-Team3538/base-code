@@ -1,4 +1,3 @@
-
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
@@ -12,6 +11,8 @@
 // number of seconds thet the timer will run
 #define TIMEOUT (15)
 #define PIN 4
+//THIS DEFINES HOW FAST THE TIMER WILL RUN IN MILLISECONDS (1000) IS REAL TIME
+#define DELAY (1000)
 
 #include "LedControl.h"
 LedControl lc = LedControl(6, 8, 7, 2);
@@ -33,8 +34,8 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(100, PIN, NEO_GRB + NEO_KHZ800);
 
 int cycle = 50;
 
-int dPin = 13;
-int d2Pin = 12;
+int dPin = 10;
+int d2Pin = 9;
 
 bool autonomousDone = false;
 bool teleopDone = false;
@@ -56,46 +57,56 @@ void loop() {
   int d2Digital = digitalRead(d2Pin);
   Serial.print( d2Digital );
   //------------------------FIFTEEN SECONDS AUTONOMOUS------------------------
-  if ( d2Digital == 1 && autonomousDone == false) {
+  if ( d2Digital == HIGH && autonomousDone == false) {
+    Serial.print(d2Digital);
     int litPixels = NUMPIXELS - 1;
     for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
       timeDisplay(countdownSeconds);
       setLEDsToColor( litPixels, 12, 0, 12);
       litPixels--;
-      delay(100);
+      delay(DELAY);
     }
     autonomousDone = true;
   }
 
-  //------------------------FIRST TWO MINUTES------------------------
-  if ( dDigital == 1 && teleopDone == false) {
+  //------------------------FIRST MINUTE AND FORTY-FIVE SECONDS------------------------
+  if ( dDigital == HIGH && teleopDone == false) {
     int startPixels = NUMPIXELS - 1;
     float startPixelsVal = 0;
     setLEDsToColor( NUMPIXELS - 1, 0, 56, 0);
-    for (int countdownSeconds = TIMEOUT + 120; countdownSeconds > 15; countdownSeconds--) {
+    for (int countdownSeconds = TIMEOUT + 120; countdownSeconds > 30; countdownSeconds--) {
       timeDisplay(countdownSeconds);
-      if (startPixelsVal == 8) {
+      if (startPixelsVal == 7) {
         startPixelsVal = 0;
         startPixels--;
       }
       setLEDsToColor( startPixels, 0, 28, 28);
-      delay(100);
+      delay(DELAY);
       startPixelsVal++;
     }
-
+    //------------------------LAST THIRTY-FIFTEEN SECONDS------------------------
+    int lightPixels = NUMPIXELS - 1;
+    setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
+    for (int countdownSeconds = TIMEOUT + 15; countdownSeconds > 15; countdownSeconds--) {
+      timeDisplay(countdownSeconds);
+      setLEDsToColor( lightPixels, 64, 16, 0);
+      lightPixels--;
+      delay(DELAY);
+    }
 
     //------------------------LAST FIFTEEN SECONDS------------------------
     int litPixels = NUMPIXELS - 1;
     setLEDsToColor( NUMPIXELS - 1, 0, 255, 0);
     for (int countdownSeconds = TIMEOUT; countdownSeconds > -1; countdownSeconds--) {
       timeDisplay(countdownSeconds);
-      setLEDsToColor( litPixels, 64, 0, 0);
+      setLEDsToColor( litPixels, 100, 0, 0);
       litPixels--;
-      delay(100);
+      delay(DELAY);
     }
     teleopDone = true;
   }
 }
+
 
 void left_trn() {
   int left_len = 25;
@@ -352,7 +363,7 @@ void  initDisplay() {
   lc.shutdown(0, false);
   /* Set the brightness to a medium values */
   lc.setIntensity(0, 8);
-  /* and clear the display */ 
+  /* and clear the display */
   lc.clearDisplay(0);
 
 
